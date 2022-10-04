@@ -19,7 +19,6 @@ export const Branch: React.FC<Props> = (props) => {
     onSetBranches,
     mainTree
   } = props;
-
   const [ isCMenuOpen, setIsCMenuOpen ] = useState(false);
   const [isShowKids, setIsShowKids] = useState(true);
   const [showCMenu, setShowCMenu] = useState(false);
