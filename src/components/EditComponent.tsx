@@ -1,30 +1,28 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 
 interface Props {
-  editHandler:(v: FormEvent) => void,
-  ref: React.RefObject<HTMLInputElement>,
-  editedName: string,
-  onSetEditedName:(v:string) => void,
+  editHandler:(val1: FormEvent, val2:string, val3: string ) => void,
+  name: string,
+  id: string,
 }
 
 export const EditComponent: React.FC<Props> = (props) => {
   const {
     editHandler,
-    ref,
-    editedName,
-    onSetEditedName
+    name,
+    id,
   } = props;
+  const [rename, setRename] = useState(name);
 
   return  (
-    <form onBlur={editHandler}>
+    <form onSubmit={(e) => editHandler(e, id, rename)}>
       <input
-        ref={ref}
-        data-cy="TreeNameField"
         type="text"
-        className="tree__name-field"
+        style={{width: '120px'}}
+        className="input is-primary"
         placeholder='Rename please'
-        value={editedName}
-        onChange={(event) => onSetEditedName(event.target.value)}
+        value={rename}
+        onChange={(event) => setRename(event.target.value)}
       />
     </form>
   )

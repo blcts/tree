@@ -8,32 +8,51 @@ export const App: React.FC = () => {
   const [mainTrees, setMainTrees] = useState<Tree[]>([]);
   const [branches, setBranches] = useState<Tree[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   return ( 
-    <div className="treesapp">
-      <h1 className="treesapp__title"> Trees </h1>
+    <div className="
+      is-flex
+      is-justify-content-center
+      is-flex-direction-column
+    ">
+      <h1 className="
+        is-flex
+        is-justify-content-center
+        is-size-1
+        my-4
+      "> 
+        Trees
+      </h1>
 
       <button 
-        className="button is-warning"
+        className="
+          button 
+          is-warning
+          has-background-primary-light
+          is-size-4
+        "
+        type="button"
         onClick={() => setIsModalOpen(true)}
       > 
-        Create new tree
+        Click here to create a new tree
       </button>
 
       {isModalOpen
       ? < ModalCreating 
           mainTrees={mainTrees} 
           onSetMainTrees={setMainTrees}
+          branches={branches}
+          setBranches={setBranches}
           onSetIsModalOpen={setIsModalOpen}
         />
-      : <div className="treesapp__content">
-          {mainTrees
+      : <div >
+          {branches
             ? < TreesMain 
-                mainTrees={mainTrees}
                 branches={branches}
-                onSetBranches={setBranches}
+                setBranches={setBranches}
+                mainTrees={mainTrees}
               />
-            : <h2 className="treesapp__description"> No trees </h2>
+            : <h2> No trees </h2>
           }
         </div>
       }

@@ -2,96 +2,90 @@ import React from 'react';
 import { Tree } from '../../types/Tree';
 
 interface Props {
-  branchId: string,
-  numberOfKids: number,
+  tree: Tree,
   onSetIsEditorOpen: (v:boolean) => void,
   isEditorOpen: boolean,
   onSetIsCMenuOpen: (v:boolean) => void,
-  isCMenuOpen: boolean,
-  onSetBranches: (v: Tree[]) => void,
+  onSetBranches: React.Dispatch<React.SetStateAction<Tree[]>>
   branches: Tree[],
 }
 
 export const ContextMenu: React.FC<Props> = (props) => {
   const { 
-    branchId,
-    numberOfKids,
+    tree,
     onSetIsEditorOpen,
     onSetIsCMenuOpen,
-    branches,
     onSetBranches,
+    branches,
   } = props;
-
-  const selectedBranch = branches.find(branch => branch.id === branchId) as Tree;
-
-  const deleteBranch = (id: string) => {
+  
+  const selectedBranch = branches.filter(branch => branch.id === tree.id)[0];
+  
+  const deleteChildBranches = (id: string) => {
     const findedBranch = branches.find(branch => branch.id === id);
-
-    if (findedBranch !== undefined) {
-      findedBranch.childId.length > 0 
-        ? findedBranch.childId.map( childByID => deleteBranch(childByID))
-        : onSetBranches(branches.filter(branch => branch.id !== id))
-    }
+    
+    if (findedBranch && findedBranch.childId.length > 0) {
+      findedBranch.childId.forEach(branchById => deleteChildBranches(branchById))
+    };
+    onSetBranches((prev) => prev.filter(branch => branch.id !== findedBranch?.id));
   };
 
   const handleOnRename = () => {
-    onSetIsCMenuOpen(false)
-    onSetIsEditorOpen(true)
+    onSetIsCMenuOpen(false);
+    onSetIsEditorOpen(true);
   };
 
   const handleOnAdd = () => {
-    onSetIsCMenuOpen(false)
-    const newBranch = {
-      id: `${branchId}-${numberOfKids + 1}`,
-      name: `cat-${numberOfKids + 1}`,
-      parentId: `${branchId}`,
-      childId: []
-    };
+    onSetIsCMenuOpen(false);
 
-    selectedBranch.childId = [...selectedBranch.childId, newBranch.id]
-    onSetBranches([...branches, newBranch])
+    const newBranch = {
+      id: `${tree.id}-${tree.childId.length + 1}`,
+      name: `${tree.id}-${tree.childId.length + 1}`,
+      childId: []
+    };    
+  
+    tree.childId = [...tree.childId, newBranch.id];
+    onSetBranches([...branches, newBranch]);
   };
 
   const handleOnDelete = () => {
-    onSetIsCMenuOpen(false)
-    deleteBranch(selectedBranch.id)
+    onSetIsCMenuOpen(false);
+    onSetBranches(branches.filter(branch => branch.id !== selectedBranch.id));
+    deleteChildBranches(selectedBranch.id);
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <ul className="menu-list">
-          <li>
-            <button
-              type="button"
-              data-cy="RenameBranchName"
-              onClick={() => (handleOnRename())}
-            >
-              Rename
-            </button>
-          </li>
+    <div className="buttons has-addons ml-3"
+      style={{
+        listStyle: 'none',
+      }}
+    >
+      <button
+        type="button"
+        className='button is-success is-light mr-2'
+        data-cy="RenameBranchName"
+        onClick={() => (handleOnRename())}
+      >
+        Rename
+      </button>
 
-          <li>
-            <button
-              type="button"
-              data-cy="AddBranchSubcategory"
-              onClick={() => (handleOnAdd())}
-            >
-              Add
-            </button>
-          </li>
+      <button
+        type="button"
+        className='button is-success is-light mr-2'
+        data-cy="AddBranchSubcategory"
+        onClick={() => (handleOnAdd())}
+      >
+        Add
+      </button>
 
-          <li>
-            <button
-              type="button"
-              data-cy="DeleteBranch"
-              onClick={() => (handleOnDelete())}
-            >
-              Delete
-            </button>
-          </li>
-        </ul>
-      </div>
+      <button
+        type="button"
+        className='button is-success is-light mr-2'
+        data-cy="DeleteBranch"
+        onClick={() => (handleOnDelete())}
+      >
+        Delete
+      </button>
     </div>
   );
-}
+};

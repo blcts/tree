@@ -1,25 +1,22 @@
 {
   "name": "fed-exam-category-tree-template",
   "version": "1.0.0",
+  "homepage": "htts://blcts.githab.io",
   "dependencies": {
     "@szhsin/react-menu": "^3.2.0",
     "bulma": "^0.9.4",
     "classnames": "^2.3.2",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wix-a/fed-exam-category-tree-template.git"
-  },
-  "bugs": {
-    "url": "https://github.com/wix-a/fed-exam-category-tree-template/issues"
-  },
-  "homepage": "https://github.com/wix-a/fed-exam-category-tree-template#readme",
   "browserslist": {
     "production": [
       ">0.2%",
