@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'bulma/css/bulma.css';
 
-import { App } from './src/App';
+import { App } from './App';
 
 const Root = () => ( <App /> );
 
