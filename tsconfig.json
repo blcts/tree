@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "src/index.tsx"  ]
+, "src/index., "public/index.tsx"tsx"  ]
 }
